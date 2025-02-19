@@ -19,6 +19,8 @@
 		<RepositoryUrl>https://github.com/EBCEYS/EBCEYS.OSServiceHelper</RepositoryUrl>
 		<PackageTags>dotnet;service;windowsservice;systemd;systemctl</PackageTags>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -35,6 +35,7 @@ namespace EBCEYS.OSServiceHelper
         /// <summary>
         /// Initiates a new instance of the <see cref="WindowsServiceHelper"/>.
         /// </summary>
+        /// <param name="logger">The logger.</param>
         /// <param name="serviceName">The service name.</param>
         /// <exception cref="ArgumentException"></exception>
         public WindowsServiceHelper(ILogger logger, string serviceName)
