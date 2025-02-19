@@ -42,10 +42,16 @@
 
 ## WindowsServiceHelper
 
-Имплементирует интерфейс `IWindowsServiceHelper` для работы со службами windows.
+Класс, наследуемый от интерфейса `IWindowsServiceHelper`, для работы со службами **WINDOWS**.
 
 Логирование внутри осуществляется на уровне *Debug*.
 
 ## Примеры
 
 GitHub - [EBCEYS.DayOfAllLoversService](https://github.com/EBCEYS/EBCEYS.DayOfAllLoversService)
+
+## Изменения:
+### v1.0.0.3:
+1. Изменен таргет фреймворк с .net8-windows на .net8.
+1. Исправлена ошибка, когда при значении параметра waitFor по умолчанию у метода `public void InstallService(string path, InstallServiceStartMode startMode = default, WaitForStatusModel waitFor = default)` всегда выкидывалось исключение.
+1. Параметр `logger` в конструкторе `WindowsServiceHelper` сделан *nullable*.

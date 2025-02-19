@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -10,9 +10,9 @@
 		<Title>EBCEYS.OSServiceHelper</Title>
 		<Authors>EBCEYS</Authors>
 		<Description>Высокоуровневая абстракция для управления службами ОС.</Description>
-		<AssemblyVersion>1.0.0.2</AssemblyVersion>
-		<Version>1.0.0.2</Version>
-		<FileVersion>1.0.0.2</FileVersion>
+		<AssemblyVersion>1.0.0.3</AssemblyVersion>
+		<Version>1.0.0.3</Version>
+		<FileVersion>1.0.0.3</FileVersion>
 		<AnalysisLevel>none</AnalysisLevel>
 		<PackageProjectUrl>https://github.com/EBCEYS/EBCEYS.OSServiceHelper</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

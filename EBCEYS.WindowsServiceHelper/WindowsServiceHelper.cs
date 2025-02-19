@@ -20,7 +20,7 @@ namespace EBCEYS.OSServiceHelper
         /// </summary>
         public string ServiceName { get; }
         private ServiceController? service;
-        private readonly ILogger logger;
+        private readonly ILogger? logger;
 
         /// <summary>
         /// Gets the <see cref="ServiceController"/> entity of selected service. Or <c>null</c> if service does not exists.
@@ -38,7 +38,7 @@ namespace EBCEYS.OSServiceHelper
         /// <param name="logger">The logger.</param>
         /// <param name="serviceName">The service name.</param>
         /// <exception cref="ArgumentException"></exception>
-        public WindowsServiceHelper(ILogger logger, string serviceName)
+        public WindowsServiceHelper(ILogger? logger, string serviceName)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(serviceName, nameof(serviceName));
             this.logger = logger;
@@ -134,7 +134,7 @@ namespace EBCEYS.OSServiceHelper
             }
             Service?.Stop(stopDependetServices);
             Service?.WaitForStatus(ServiceControllerStatus.Stopped, waitFor);
-            logger.LogDebug("Service stoped...");
+            logger?.LogDebug("Service stoped...");
         }
         /// <summary>
         /// Pauses the service.
@@ -179,13 +179,13 @@ namespace EBCEYS.OSServiceHelper
             {
                 StartInfo = installInfo,
             };
-            logger.LogDebug($"Try to execute service uninstall process {installInfo.FileName} {installInfo.Arguments}");
+            logger?.LogDebug($"Try to execute service uninstall process {installInfo.FileName} {installInfo.Arguments}");
             deleteProcess.Start();
             bool res = deleteProcess.WaitForExit(waitForExit);
 
             string output = deleteProcess.StandardOutput.ReadToEnd();
-            logger.LogDebug($"Process result output: {output}");
-            logger.LogDebug("Please remove files from service working directory");
+            logger?.LogDebug($"Process result output: {output}");
+            logger?.LogDebug("Please remove files from service working directory");
             return res;
 
         }
@@ -217,18 +217,18 @@ namespace EBCEYS.OSServiceHelper
             argsList.Add($"start= {startMode}");
             string installArgs = string.Join(" ", argsList);
             installInfo.Arguments = installArgs;
-            logger.LogDebug($"Start installing process: {installInfo.FileName} {installArgs}");
+            logger?.LogDebug($"Start installing process: {installInfo.FileName} {installArgs}");
             using Process installProcess = new()
             {
                 StartInfo = installInfo
             };
             installProcess.Start();
-            logger.LogDebug("Start installation process...");
+            logger?.LogDebug("Start installation process...");
             installProcess.WaitForExit(waitFor);
 
             string? output = installProcess.StandardOutput?.ReadToEnd() ?? "ERROR: no out!";
-            logger.LogDebug($"Installation result:");
-            logger.LogDebug(output);
+            logger?.LogDebug($"Installation result:");
+            logger?.LogDebug(output);
         }
         /// <inheritdoc/>
         public string? SetDescriptionForService(string description, WaitForStatusModel waitFor = default)

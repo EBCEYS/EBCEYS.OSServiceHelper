@@ -9,8 +9,12 @@ namespace EBCEYS.OSServiceHelper.Extensions
         {
             if (model.ShouldWaitForStatus)
             {
-                ArgumentNullException.ThrowIfNull(model.WaitTime);
-                return process.WaitForExit(model.WaitTime.Value);
+                if (model.WaitTime.HasValue)
+                {
+                    return process.WaitForExit(model.WaitTime.Value);
+                }
+                process.WaitForExit();
+                return true;
             }
             return true;
         }
