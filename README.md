@@ -1,5 +1,7 @@
 # EBCEYS.OSServiceHelper
 
+[![.NET](https://github.com/EBCEYS/EBCEYS.OSServiceHelper/actions/workflows/dotnet.yml/badge.svg)](https://github.com/EBCEYS/EBCEYS.OSServiceHelper/actions/workflows/dotnet.yml)
+
 ## Описание:
 
 Очень верхоуровневая абстракция поверх `ServiceController` для Windows.
@@ -42,4 +44,8 @@
 
 Имплементирует интерфейс `IWindowsServiceHelper` для работы со службами windows.
 
-//TODO: examples
+Логирование внутри осуществляется на уровне *Debug*.
+
+## Примеры
+
+GitHub - [EBCEYS.DayOfAllLoversService](https://github.com/EBCEYS/EBCEYS.DayOfAllLoversService)
