@@ -2,50 +2,50 @@
 
 [![.NET](https://github.com/EBCEYS/EBCEYS.OSServiceHelper/actions/workflows/dotnet.yml/badge.svg)](https://github.com/EBCEYS/EBCEYS.OSServiceHelper/actions/workflows/dotnet.yml)
 
-## Описание:
+## РћРїРёСЃР°РЅРёРµ:
 
-Очень верхоуровневая абстракция поверх `ServiceController` для Windows.
-Библиотека позволяет управлять службами в ОС Windows.
+РћС‡РµРЅСЊ РІРµСЂС…РѕСѓСЂРѕРІРЅРµРІР°СЏ Р°Р±СЃС‚СЂР°РєС†РёСЏ РїРѕРІРµСЂС… `ServiceController` РґР»СЏ Windows.
+Р‘РёР±Р»РёРѕС‚РµРєР° РїРѕР·РІРѕР»СЏРµС‚ СѓРїСЂР°РІР»СЏС‚СЊ СЃР»СѓР¶Р±Р°РјРё РІ РћРЎ Windows.
 
-В методах установки, удаления и установки описания дергает sc.exe.
+Р’ РјРµС‚РѕРґР°С… СѓСЃС‚Р°РЅРѕРІРєРё, СѓРґР°Р»РµРЅРёСЏ Рё СѓСЃС‚Р°РЅРѕРІРєРё РѕРїРёСЃР°РЅРёСЏ РґРµСЂРіР°РµС‚ sc.exe.
 
-Библиотека на данный момент реализует интерфейс `IOSServiceHelper` и его имплементацию для ОС Windows `WindowsServiceHelper`.
+Р‘РёР±Р»РёРѕС‚РµРєР° РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ СЂРµР°Р»РёР·СѓРµС‚ РёРЅС‚РµСЂС„РµР№СЃ `IOSServiceHelper` Рё РµРіРѕ РёРјРїР»РµРјРµРЅС‚Р°С†РёСЋ РґР»СЏ РћРЎ Windows `WindowsServiceHelper`.
 
 
 ## IOSServiceHelper
 
-Базовый интерфейс для `ServiceHelper`.
+Р‘Р°Р·РѕРІС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ РґР»СЏ `ServiceHelper`.
 
-Содержит в себе несколько методов:
+РЎРѕРґРµСЂР¶РёС‚ РІ СЃРµР±Рµ РЅРµСЃРєРѕР»СЊРєРѕ РјРµС‚РѕРґРѕРІ:
 
-* `string ServiceName { get; }` - имя службы.
-* `bool IsServiceExists();` - проверка что служба установлена.
-* `bool IsServiceRunning();` - проверка что служба запущена.
-* `bool IsServiceStoped();` - проверка что служба остановлена.
-* `void StartService(string[]? args = null, WaitForStatusModel waitFor = default);` - запуск службы.
-* `void StopService(bool stopDependetServices = false, WaitForStatusModel waitFor = default);` - остановка службы.
+* `string ServiceName { get; }` - РёРјСЏ СЃР»СѓР¶Р±С‹.
+* `bool IsServiceExists();` - РїСЂРѕРІРµСЂРєР° С‡С‚Рѕ СЃР»СѓР¶Р±Р° СѓСЃС‚Р°РЅРѕРІР»РµРЅР°.
+* `bool IsServiceRunning();` - РїСЂРѕРІРµСЂРєР° С‡С‚Рѕ СЃР»СѓР¶Р±Р° Р·Р°РїСѓС‰РµРЅР°.
+* `bool IsServiceStoped();` - РїСЂРѕРІРµСЂРєР° С‡С‚Рѕ СЃР»СѓР¶Р±Р° РѕСЃС‚Р°РЅРѕРІР»РµРЅР°.
+* `void StartService(string[]? args = null, WaitForStatusModel waitFor = default);` - Р·Р°РїСѓСЃРє СЃР»СѓР¶Р±С‹.
+* `void StopService(bool stopDependetServices = false, WaitForStatusModel waitFor = default);` - РѕСЃС‚Р°РЅРѕРІРєР° СЃР»СѓР¶Р±С‹.
 
 ## IWindowsServiceHelper
 
-Дополняет `IOSServiceHelper`.
+Р”РѕРїРѕР»РЅСЏРµС‚ `IOSServiceHelper`.
 
-Содержит в себе методы для работы со службами Windows:
+РЎРѕРґРµСЂР¶РёС‚ РІ СЃРµР±Рµ РјРµС‚РѕРґС‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃР»СѓР¶Р±Р°РјРё Windows:
 
-* `bool DeleteService(TimeSpan waitForExit);` - удаление службы.
-* `string? SetDescriptionForService(string description, WaitForStatusModel waitFor = default);` - установка описания для службы.
-* `ServiceControllerStatus? GetServiceStatus();` - получение статуса службы. 
-* `bool RecreateService();` - пересоздание инстанса `ServiceController`.
-* `void InstallService(string path, InstallServiceStartMode startMode, WaitForStatusModel model = default);` - установка службы.
-* `void PauseService(WaitForStatusModel waitFor = default);` - постановка службы на паузу.
+* `bool DeleteService(TimeSpan waitForExit);` - СѓРґР°Р»РµРЅРёРµ СЃР»СѓР¶Р±С‹.
+* `string? SetDescriptionForService(string description, WaitForStatusModel waitFor = default);` - СѓСЃС‚Р°РЅРѕРІРєР° РѕРїРёСЃР°РЅРёСЏ РґР»СЏ СЃР»СѓР¶Р±С‹.
+* `ServiceControllerStatus? GetServiceStatus();` - РїРѕР»СѓС‡РµРЅРёРµ СЃС‚Р°С‚СѓСЃР° СЃР»СѓР¶Р±С‹. 
+* `bool RecreateService();` - РїРµСЂРµСЃРѕР·РґР°РЅРёРµ РёРЅСЃС‚Р°РЅСЃР° `ServiceController`.
+* `void InstallService(string path, InstallServiceStartMode startMode, WaitForStatusModel model = default);` - СѓСЃС‚Р°РЅРѕРІРєР° СЃР»СѓР¶Р±С‹.
+* `void PauseService(WaitForStatusModel waitFor = default);` - РїРѕСЃС‚Р°РЅРѕРІРєР° СЃР»СѓР¶Р±С‹ РЅР° РїР°СѓР·Сѓ.
 
 
 
 ## WindowsServiceHelper
 
-Имплементирует интерфейс `IWindowsServiceHelper` для работы со службами windows.
+РРјРїР»РµРјРµРЅС‚РёСЂСѓРµС‚ РёРЅС‚РµСЂС„РµР№СЃ `IWindowsServiceHelper` РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃР»СѓР¶Р±Р°РјРё windows.
 
-Логирование внутри осуществляется на уровне *Debug*.
+Р›РѕРіРёСЂРѕРІР°РЅРёРµ РІРЅСѓС‚СЂРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РЅР° СѓСЂРѕРІРЅРµ *Debug*.
 
-## Примеры
+## РџСЂРёРјРµСЂС‹
 
 GitHub - [EBCEYS.DayOfAllLoversService](https://github.com/EBCEYS/EBCEYS.DayOfAllLoversService)

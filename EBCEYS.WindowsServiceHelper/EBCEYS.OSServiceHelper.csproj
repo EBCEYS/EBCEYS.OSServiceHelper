@@ -10,9 +10,9 @@
 		<Title>EBCEYS.OSServiceHelper</Title>
 		<Authors>EBCEYS</Authors>
 		<Description>Высокоуровневая абстракция для управления службами ОС.</Description>
-		<AssemblyVersion>1.0.0.1</AssemblyVersion>
-		<Version>1.0.0.1</Version>
-		<FileVersion>1.0.0.1</FileVersion>
+		<AssemblyVersion>1.0.0.2</AssemblyVersion>
+		<Version>1.0.0.2</Version>
+		<FileVersion>1.0.0.2</FileVersion>
 		<AnalysisLevel>none</AnalysisLevel>
 		<PackageProjectUrl>https://github.com/EBCEYS/EBCEYS.OSServiceHelper</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
