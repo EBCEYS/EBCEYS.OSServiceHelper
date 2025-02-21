@@ -31,7 +31,8 @@
 
 Содержит в себе методы для работы со службами Windows:
 
-* `bool DeleteService(TimeSpan waitForExit);` - удаление службы.
+* `bool DeleteService(TimeSpan waitForExit);` - удаление службы **!!!СТАРАЯ РЕАЛИЗАЦИЯ!!!**.
+* `string? DeleteServiceWithOutput(TimeSpan waitForExit);` - удаление службы.
 * `string? SetDescriptionForService(string description, WaitForStatusModel waitFor = default);` - установка описания для службы.
 * `ServiceControllerStatus? GetServiceStatus();` - получение статуса службы. 
 * `bool RecreateService();` - пересоздание инстанса `ServiceController`.
@@ -44,13 +45,17 @@
 
 Класс, наследуемый от интерфейса `IWindowsServiceHelper`, для работы со службами **WINDOWS**.
 
-Логирование внутри осуществляется на уровне *Debug*.
+Логирование внутри осуществляется на уровне *Debug* && *Trace*.
 
 ## Примеры
 
 GitHub - [EBCEYS.DayOfAllLoversService](https://github.com/EBCEYS/EBCEYS.DayOfAllLoversService)
 
 ## Изменения:
+### v1.0.0.4:
+1. Исправлено логирование.
+1. В `IOSServiceHelper` и `WindowsServiceHelper` соответственно добавлен новый метод `string? DeleteServiceWithOutput(TimeSpan waitForExit);()`.
+1. В `IOSServiceHelper` и `WindowsServiceHelper` соответственно метод `bool DeleteService(TimeSpan waitForExit);` помечен как ***Obsolete***.
 ### v1.0.0.3:
 1. Изменен таргет фреймворк с .net8-windows на .net8.
 1. Исправлена ошибка, когда при значении параметра waitFor по умолчанию у метода `public void InstallService(string path, InstallServiceStartMode startMode = default, WaitForStatusModel waitFor = default)` всегда выкидывалось исключение.

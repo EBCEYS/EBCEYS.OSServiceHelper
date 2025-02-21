@@ -15,11 +15,18 @@ namespace EBCEYS.OSServiceHelper.Interfaces
         /// </summary>
         ServiceController? Service { get; }
         /// <summary>
-        /// Deletes the service from service provider.
+        /// Deletes the service from service controller.
         /// </summary>
         /// <param name="waitForExit">The time to wait for process execution.</param>
         /// <returns><c>true</c> if service was deleted suceffully; otherwise<c>false</c>.</returns>
+        [Obsolete($"It's better to use {nameof(DeleteServiceWithOutput)}")]
         bool DeleteService(TimeSpan waitForExit);
+        /// <summary>
+        /// Deletes the service from service controller.
+        /// </summary>
+        /// <param name="waitForExit">The time to wait for process execution.</param>
+        /// <returns>Standat output or <c>null</c> if there's no output.</returns>
+        string? DeleteServiceWithOutput(TimeSpan waitForExit);
         /// <summary>
         /// Gets the service status <b>WINDOWS ONLY!!!</b>.
         /// </summary>
@@ -31,7 +38,8 @@ namespace EBCEYS.OSServiceHelper.Interfaces
         /// <param name="path">The absolute path of executable file.</param>
         /// <param name="startMode">The start mode.</param>
         /// <param name="model">The wait for installation process exit model.</param>
-        void InstallService(string path, InstallServiceStartMode startMode, WaitForStatusModel model = default);
+        /// <returns>Standart output or <c>null</c> if there's no output.</returns>
+        string? InstallService(string path, InstallServiceStartMode startMode, WaitForStatusModel model = default);
         /// <summary>
         /// Recreates the instance of service API instance from service controller.
         /// </summary>
@@ -46,7 +54,7 @@ namespace EBCEYS.OSServiceHelper.Interfaces
         /// </summary>
         /// <param name="description">The description.</param>
         /// <param name="waitFor">The wait for process exit model.</param>
-        /// <returns>The standart process out as string.</returns>
+        /// <returns>The standart process out or <c>null</c> if there's no output.</returns>
         string? SetDescriptionForService(string description, WaitForStatusModel waitFor = default);
         /// <summary>
         /// Pauses the service.

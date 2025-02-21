@@ -20,7 +20,7 @@ namespace EBCEYS.OSServiceHelper
         /// </summary>
         public string ServiceName { get; }
         private ServiceController? service;
-        private readonly ILogger? logger;
+        private readonly ILogger<WindowsServiceHelper>? logger;
 
         /// <summary>
         /// Gets the <see cref="ServiceController"/> entity of selected service. Or <c>null</c> if service does not exists.
@@ -38,7 +38,7 @@ namespace EBCEYS.OSServiceHelper
         /// <param name="logger">The logger.</param>
         /// <param name="serviceName">The service name.</param>
         /// <exception cref="ArgumentException"></exception>
-        public WindowsServiceHelper(ILogger? logger, string serviceName)
+        public WindowsServiceHelper(ILogger<WindowsServiceHelper>? logger, string serviceName)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(serviceName, nameof(serviceName));
             this.logger = logger;
@@ -134,7 +134,6 @@ namespace EBCEYS.OSServiceHelper
             }
             Service?.Stop(stopDependetServices);
             Service?.WaitForStatus(ServiceControllerStatus.Stopped, waitFor);
-            logger?.LogDebug("Service stoped...");
         }
         /// <summary>
         /// Pauses the service.
@@ -157,6 +156,7 @@ namespace EBCEYS.OSServiceHelper
         /// <param name="waitForExit">The time for process exition awaiting.</param>
         /// <returns><c>true</c> if deletion process was exited; otherwise <c>false</c>.</returns>
         /// <exception cref="InvalidOperationException"></exception>
+        [Obsolete($"It's better to use {nameof(DeleteServiceWithOutput)}")]
         public bool DeleteService(TimeSpan waitForExit)
         {
             if (!IsServiceExists())
@@ -185,9 +185,45 @@ namespace EBCEYS.OSServiceHelper
 
             string output = deleteProcess.StandardOutput.ReadToEnd();
             logger?.LogDebug($"Process result output: {output}");
-            logger?.LogDebug("Please remove files from service working directory");
             return res;
 
+        }
+        /// <summary>
+        /// Deletes the service.
+        /// <b>WARNING!!!</b> service should be in status <see cref="ServiceControllerStatus.Stopped"/>.
+        /// </summary>
+        /// <param name="waitForExit">The time for process exition awaiting.</param>
+        /// <returns>Standart output or <c>null</c> if there's no output.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public string? DeleteServiceWithOutput(TimeSpan waitForExit)
+        {
+            if (!IsServiceExists())
+            {
+                throw new InvalidOperationException("Service is not installed!");
+            }
+            if (!IsServiceStoped())
+            {
+                throw new InvalidOperationException("Service should be stoped");
+            }
+            ProcessStartInfo installInfo = new()
+            {
+                FileName = "sc.exe",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                Arguments = $"delete {ServiceName}"
+            };
+            using Process deleteProcess = new()
+            {
+                StartInfo = installInfo,
+            };
+            logger?.LogDebug($"Try to execute service uninstall process {installInfo.FileName} {installInfo.Arguments}");
+            deleteProcess.Start();
+            if (deleteProcess.WaitForExit(waitForExit))
+            {
+                return deleteProcess.StandardOutput.ReadToEnd();
+            }
+            return null;
         }
         /// <summary>
         /// Installs the service.<br/>
@@ -197,7 +233,7 @@ namespace EBCEYS.OSServiceHelper
         /// <param name="startMode">The service start mode.</param>
         /// <param name="waitFor">The wait for installation process exit model.</param>
         /// <exception cref="InvalidOperationException"></exception>
-        public void InstallService(string path, InstallServiceStartMode startMode = default, WaitForStatusModel waitFor = default)
+        public string? InstallService(string path, InstallServiceStartMode startMode = default, WaitForStatusModel waitFor = default)
         {
             if (IsServiceExists())
             {
@@ -223,12 +259,12 @@ namespace EBCEYS.OSServiceHelper
                 StartInfo = installInfo
             };
             installProcess.Start();
-            logger?.LogDebug("Start installation process...");
-            installProcess.WaitForExit(waitFor);
-
-            string? output = installProcess.StandardOutput?.ReadToEnd() ?? "ERROR: no out!";
-            logger?.LogDebug($"Installation result:");
-            logger?.LogDebug(output);
+            logger?.LogTrace("Start installation process...");
+            if (installProcess.WaitForExit(waitFor))
+            {
+                return installProcess.StandardOutput?.ReadToEnd();
+            }
+            return null;
         }
         /// <inheritdoc/>
         public string? SetDescriptionForService(string description, WaitForStatusModel waitFor = default)
@@ -245,9 +281,11 @@ namespace EBCEYS.OSServiceHelper
                 }
             };
             setDescProcess.Start();
-            setDescProcess.WaitForExit(waitFor);
-
-            return setDescProcess.StandardOutput?.ReadToEnd();
+            if (setDescProcess.WaitForExit(waitFor))
+            {
+                return setDescProcess.StandardOutput?.ReadToEnd();
+            }
+            return null;
         }
 
         private bool TryDisposeService(out Exception? ex)
